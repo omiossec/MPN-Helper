@@ -1,2 +1,5 @@
-# MPN-Helper
-PS Module to help to check current MPN link
+# MPN-Helper PowerShell Module
+
+The goals of this module is to help to add Microsoft Partner ID to any connected Azure Tenant 
+
+
