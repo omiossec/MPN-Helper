@@ -1,15 +1,13 @@
 param (
     $BuildModulePath=$Env:BUILD_SOURCESDIRECTORY,
-    $ModuleName = $ENV:ModuleName,
-    $ModuleVersion = $ENV:ModuleVersion
+    $ModuleName = "mpn-helper"
 )
 
 $ModuleManifestPath = "$($BuildModulePath)\src\$($ModuleName).psd1" 
 
 Get-Module -Name $ModuleName | remove-module
 
-Install-Module Az -Force -AllowClobber
-import-module -name AZ 
+
 
 
 $ModuleInformation = Import-module -Name $ModuleManifestPath -PassThru
@@ -52,6 +50,81 @@ Describe "$ModuleName Testing"{
 
     InModuleScope $ModuleName {
         Context "$($ModuleName) Cmdlet testing" {
+
+            Mock get-MPNHelperLocalID -MockWith { "44444" }
+
+            Mock get-AzContext -MockWith {
+                [pscustomobject]@{
+                    "Name"          = "Microsoft Azure Sponsorship"
+                    "Account"       = "olivier@pester.test"
+                    "Environment"   = "AzureCloud"
+                    "Subscription"  = "xxxxx-xxxxx-xxxxx-xxxx"
+                    "Tenant"        = "xxxxx-xxxxx-xxxxx-xxxx"
+                }
+            }
+
+            Mock Get-InstalledModule -MockWith {
+                [pscustomobject]@{
+                    "Name"        = "Az"
+                    "Version"     = "2.8.0"
+                    "Repository"  = "PSGallery"
+                    "Description" = "Microsoft Azure PowerShell"
+                }
+            } -ParameterFilter { $Name -eq "Az" }
+
+            Mock Get-InstalledModule -MockWith {
+                [pscustomobject]@{
+                    "Name"        = "Az.ManagementPartner"
+                    "Version"     = "0.7.1"
+                    "Repository"  = "PSGallery"
+                    "Description" = "Microsoft Azure PowerShell"
+                }
+            } -ParameterFilter { $Name -eq "Az.ManagementPartner" }
+
+            It "test-MPNHelperAzModule should return true" { 
+                test-MPNHelperAzModule | should -BeTrue
+            }
+
+            It "test-MPNHelperAzConnexion should return true" {
+                test-MPNHelperAzConnexion | should -BeTrue
+            }
+
+            It "LocalPartnerRegistered must false with when PartnerId is not 44444" {
+
+                Mock Get-AzManagementPartner -MockWith {
+                    [pscustomobject]@{
+                        "PartnerId"     = "333333"
+                        "PartnerName"   = "test"
+                        "TenantId"      = "xxxxx-xxxxx-xxxxx-xxxx"
+                        "ObjectId"      = "xxxxx-xxxxx-xxxxx-xxxx"
+                        "State"         = "Active"
+                    }
+                }
+
+                $Result = get-MPNHelperID 
+
+                $Result.LocalPartnerRegistered | Should -BeFalse
+
+            }
+
+            It "LocalPartnerRegistered must true with when PartnerId is  44444" {
+
+                Mock Get-AzManagementPartner -MockWith {
+                    [pscustomobject]@{
+                        "PartnerId"     = "44444"
+                        "PartnerName"   = "test"
+                        "TenantId"      = "xxxxx-xxxxx-xxxxx-xxxx"
+                        "ObjectId"      = "xxxxx-xxxxx-xxxxx-xxxx"
+                        "State"         = "Active"
+                    }
+                }
+
+                $Result = get-MPNHelperID 
+
+                $Result.LocalPartnerRegistered | Should -BeTrue
+
+            }
+
 
         }
 
