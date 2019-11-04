@@ -30,7 +30,7 @@ CompanyName = 'Olivier Miossec'
 Copyright = 'Olivier Miossec 2019'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'Tool to deal with MPNID linking in Azure'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -95,13 +95,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @("Azure","MPN")
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/omiossec/MPN-Helper/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/omiossec/MPN-Helper'
 
         # A URL to an icon representing this module.
         # IconUri = ''
