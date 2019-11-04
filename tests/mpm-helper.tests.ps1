@@ -92,7 +92,7 @@ Describe "$ModuleName Testing"{
 
             It "LocalPartnerRegistered must false with when PartnerId is not 44444" {
 
-                Mock Get-AzManagementPartner -MockWith {
+                function Get-AzManagementPartner () {
                     [pscustomobject]@{
                         "PartnerId"     = "333333"
                         "PartnerName"   = "test"
@@ -110,7 +110,7 @@ Describe "$ModuleName Testing"{
 
             It "LocalPartnerRegistered must true with when PartnerId is  44444" {
 
-                Mock Get-AzManagementPartner -MockWith {
+                function Get-AzManagementPartner () {
                     [pscustomobject]@{
                         "PartnerId"     = "44444"
                         "PartnerName"   = "test"
