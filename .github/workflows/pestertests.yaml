@@ -1,0 +1,19 @@
+name: Pester Test on Windows
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  validate:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Perform_Tests
+        shell: pwsh
+        run: .\performtest.ps1 

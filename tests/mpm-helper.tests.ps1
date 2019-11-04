@@ -3,7 +3,8 @@ param (
     $ModuleName = "mpn-helper"
 )
 
-$ModuleManifestPath = "$($BuildModulePath)\src\$($ModuleName).psd1" 
+$ModuleManifestPath = "./src/mpn-helper.psd1"
+
 
 Get-Module -Name $ModuleName | remove-module
 
