@@ -54,7 +54,7 @@ Describe "$ModuleName Testing"{
 
             Mock get-MPNHelperLocalID -MockWith { "44444" }
 
-            Mock get-AzContext -MockWith {
+           get-AzContext  {
                 [pscustomobject]@{
                     "Name"          = "Microsoft Azure Sponsorship"
                     "Account"       = "olivier@pester.test"
