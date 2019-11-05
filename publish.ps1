@@ -1,13 +1,11 @@
 
 $RootDir = "."
 
-$SrcDir = join-path -Path $RootDir -ChildPath "src"
-
  new-item -name "mpn-helper" -ItemType Directory
 
  $publishPath =  join-path -Path $RootDir -ChildPath "mpn-helper"
 
- copy-item -path $SrcDir -Destination  $publishPath -Recurse
+ copy-item -path $RootDir/LICENSE,$rootDir/src/*  -Destination  $publishPath -Recurse
 
 
 try {
