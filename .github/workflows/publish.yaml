@@ -1,0 +1,30 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  validate:
+    runs-on: windows-latest
+
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Perform_Tests
+        shell: pwsh
+        run: .\performtest.ps1 
+
+  publish:
+    needs: validate
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish Module
+        env:
+          PSGALLERY_NUGET_API_KEY: ${{ secrets.PSGALLERY_NUGET_API_KEY }}
+        shell: pwsh
+        run: .\publish.ps1 

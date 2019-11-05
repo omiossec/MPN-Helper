@@ -95,6 +95,11 @@ function set-MPNHelperLocalID {
         Az Context must return a connection object and the localpartnerID must be set
     .OUTPUT
         pscustomobject
+        MPNID, the MPN ID on the current Azure Connection
+        ParnterName, The partnair name on the current Azure Connection
+        TenantID, The partnair Tenant ID on the current Azure Connection
+        State, The state (actived or disabled) on the current Azure Connection
+        LocalPartnerRegistered, $true if the MPN ID is alligned with the MPNID in the current connection and $false in any other case
     .NOTES
         To be able to set MPN ID on any Azure subscription you need to use set-MPNHelperLocalID first
         Author: Olivier Miossec https://www.linkedin.com/in/omiossec/
